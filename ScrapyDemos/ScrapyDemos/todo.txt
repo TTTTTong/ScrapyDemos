@@ -1,0 +1,2 @@
+1. cmd  rm db.json
+2. sql 会报nonetype的错，虽然不影响结果；
