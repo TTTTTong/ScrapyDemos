@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
+import json
+from pprint import pprint
+
 import scrapy
+from zhihuUser import items
 
 
 class ZhihuSpider(scrapy.Spider):
@@ -23,12 +27,25 @@ class ZhihuSpider(scrapy.Spider):
     start_urls = ['http://www.zhihu.com/']
 
     def start_requests(self):
-        yield scrapy.Request(self.user_url.format(user=self.start_user, include=self.user_query), self.parse_user)
+        yield scrapy.Request(self.user_url.format(user=self.start_user, include=self.user_query), callback=self.parse_user)
+        yield scrapy.Request(self.follows_url.format(user=self.start_user, include=self.follows_query, offset=0, limit=20),
+                             callback=self.parse_follow)
 
     def parse_user(self, response):
-        print('----------')
-        print(response.text)
+        print('--------')
+        item = items.ZhihuuserItem()
+        result = json.loads(response.text)
+        for field in item.fields:
+            if field in result.keys():
+                item[field] = result.get(field)
+        yield item
+
+        yield scrapy.Request(self.follows_url.format(user=result.get('url_token'), include=self.follows_query, offset=0,
+                                                     limit=20), callback=self.parse_follow)
+        print('---------')
 
     def parse_follow(self, response):
         print('=========')
-        print(response.text)
+        result = json.loads(response.text)
+        pprint(result)
+        print('=========')
