@@ -47,5 +47,11 @@ class ZhihuSpider(scrapy.Spider):
     def parse_follow(self, response):
         print('=========')
         result = json.loads(response.text)
-        pprint(result)
+        if 'data' in result.keys():
+            for follow_users in result.get('data'):
+                yield scrapy.Request(self.user_url.format(user=follow_users.get('url_token'), include=self.user_query),
+                                     callback=self.parse_user)
+        if 'paging' in result.keys() and result.get('paging').get('is_end') is False:
+            next_page = result.get('paging').get('next')
+            yield scrapy.Request(next_page, callback=self.parse_follow)
         print('=========')
