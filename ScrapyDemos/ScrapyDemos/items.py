@@ -15,3 +15,4 @@ class DBMovieItem(scrapy.Item):
     movie_name = scrapy.Field()
     score = scrapy.Field()
     score_num = scrapy.Field()
+
