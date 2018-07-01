@@ -11,3 +11,6 @@ class ExchangePipeline:
         if isinstance(item, UnusualItem):
             sql.insert_unusual(item['currency'], item['txid'], item['quantity'], item['time'],
                              item['is_regal'], item['from_addr'], item['to_addr'])
+
+    def close_spider(self, spider):
+        print('eeeeeeeend')

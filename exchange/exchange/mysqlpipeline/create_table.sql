@@ -12,7 +12,7 @@ DROP TABLE IF EXISTS `unusual`;
 CREATE TABLE `unusual`(
     `currency` varchar(255) NOT NULL ,
     `txid` varchar(255) NOT NULL,
-    `quantity` float(20,8) NOT NULL,
+    `quantity` float NOT NULL,
     `time` bigint(20) NOT NULL ,
     `is_regal` tinyint(1) NOT NULL DEFAULT 0,
     `from_addr` varchar(255) NOT NULL,

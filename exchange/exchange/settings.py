@@ -97,3 +97,7 @@ MYSQL_USER = 'root'
 MYSQL_PASSWORD = '201919'
 MYSQL_PORT = '3306'
 MYSQL_DB = 'scrapy001'
+
+# 日志
+# LOG_FILE = 'spider.log'
+# LOG_FORMAT = '%(levelname)s %(asctime)s [%(name)s:%(module)s:%(funcName)s:%(lineno)s] [%(exc_info)s] %(message)s'
