@@ -1,5 +1,7 @@
 from .sql import sql
-from exchange.items import RegalHolderItem, UnusualItem
+from exchange.items import RegalHolderItem, UnusualItem, TokenInfoItem, IpItem
+from requests import get
+from fake_useragent import UserAgent
 
 
 class ExchangePipeline:
@@ -12,5 +14,14 @@ class ExchangePipeline:
             sql.insert_unusual(item['currency'], item['txid'], item['quantity'], item['time'],
                              item['is_regal'], item['from_addr'], item['to_addr'])
 
+        if isinstance(item, TokenInfoItem):
+            sql.indert_tokeninfo(item['currency'], item['contract'])
+
+        if isinstance(item, IpItem):
+            # self.verify_ip(item['ip'])
+            sql.insert_ip(item['ip'])
+
     def close_spider(self, spider):
         print('eeeeeeeend')
+
+

@@ -8,6 +8,7 @@
 import scrapy
 
 
+# 大户持币
 class RegalHolderItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
@@ -18,6 +19,7 @@ class RegalHolderItem(scrapy.Item):
     per = scrapy.Field()
 
 
+# 大额转账
 class UnusualItem(scrapy.Item):
     currency = scrapy.Field()
     txid = scrapy.Field()
@@ -26,3 +28,13 @@ class UnusualItem(scrapy.Item):
     is_regal = scrapy.Field()
     from_addr = scrapy.Field()
     to_addr = scrapy.Field()
+
+
+class IpItem(scrapy.Item):
+    ip = scrapy.Field()
+
+
+# temp
+class TokenInfoItem(scrapy.Item):
+    currency = scrapy.Field()
+    contract = scrapy.Field()

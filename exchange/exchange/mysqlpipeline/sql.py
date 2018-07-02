@@ -23,3 +23,15 @@ class sql:
               "UPDATE quantity={2},time={3},is_regal={4},from_addr='{5}',to_addr='{6}';"
         cur.execute(sql.format(currency, txid, quantity, time, is_regal, from_addr, to_addr))
         cnx.commit()
+
+    @classmethod
+    def indert_tokeninfo(cls, currency, contract):
+        sql = "insert into token_info VALUES('{0}', '{1}') ON duplicate KEY UPDATE contract='{1}';"
+        cur.execute(sql.format(currency, contract))
+        cnx.commit()
+
+    @classmethod
+    def insert_ip(cls, ip):
+        sql = "insert into ip_list VALUES('{0}') ON duplicate KEY UPDATE ip='{0}';"
+        cur.execute(sql.format(ip))
+        cnx.commit()

@@ -19,3 +19,18 @@ CREATE TABLE `unusual`(
     `to_addr` varchar(255) NOT NULL,
     PRIMARY KEY (`currency`, `txid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+DROP TABLE IF EXISTS `token_info`;
+CREATE TABLE `token_info`(
+    `currency` VARCHAR (255) NOT NULL ,
+    `contract` VARCHAR (255) NOT NULL ,
+    PRIMARY KEY (`currency`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+DROP TABLE if EXISTS `ip_list`;
+CREATE TABLE `ip_list`(
+    `ip` VARCHAR (255) NOT NULL ,
+    PRIMARY KEY (`ip`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
