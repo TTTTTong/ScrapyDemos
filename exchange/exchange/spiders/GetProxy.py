@@ -7,6 +7,7 @@ from ..items import IpItem
 from requests import get
 
 
+# 暂时废弃
 class GetProxy(scrapy.Spider):
     name = 'get_proxy'
     start_url1 = 'https://www.kuaidaili.com/free/inha/{0}/'

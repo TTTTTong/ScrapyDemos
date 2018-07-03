@@ -18,7 +18,6 @@ class ExchangePipeline:
             sql.indert_tokeninfo(item['currency'], item['contract'])
 
         if isinstance(item, IpItem):
-            # self.verify_ip(item['ip'])
             sql.insert_ip(item['ip'])
 
     def close_spider(self, spider):
