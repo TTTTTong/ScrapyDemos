@@ -25,26 +25,27 @@ class GetProxy(scrapy.Spider):
             tdlist = tr.select('td')
             item['ip'] = tdlist[0].get_text() + ':' + tdlist[1].get_text()
 
+            yield item
             # self.verify_ip(item)
-            ua = UserAgent()
-            try:
-                url_content = get("https://www.baidu.com/",
-                                  proxies={"http": item['ip'], "https": item['ip']},
-                                  timeout=10,
-                                  headers={
-                                      'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-                                      'Accept-Encoding': 'gzip, deflate, compress',
-                                      'Accept-Language': 'zh-CN,zh;q=0.8,en;q=0.6,ru;q=0.4',
-                                      'Cache-Control': 'max-age=0',
-                                      'Connection': 'keep-alive',
-                                      'User-Agent': ua.random
-                                  })
-
-                if int(url_content.status_code) == int(200):
-                    yield item
-
-            except BaseException as e:
-                pass
+            # ua = UserAgent()
+            # try:
+            #     url_content = get("https://www.baidu.com/",
+            #                       proxies={"http": item['ip'], "https": item['ip']},
+            #                       timeout=10,
+            #                       headers={
+            #                           'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            #                           'Accept-Encoding': 'gzip, deflate, compress',
+            #                           'Accept-Language': 'zh-CN,zh;q=0.8,en;q=0.6,ru;q=0.4',
+            #                           'Cache-Control': 'max-age=0',
+            #                           'Connection': 'keep-alive',
+            #                           'User-Agent': ua.random
+            #                       })
+            #
+            #     if int(url_content.status_code) == int(200):
+            #         yield item
+            #
+            # except BaseException as e:
+            #     pass
 
     def parse2(self, response):
         soup = BeautifulSoup(response.body, 'lxml')
@@ -54,26 +55,27 @@ class GetProxy(scrapy.Spider):
             tdlist = trtag.find_all('td')
             item['ip'] = tdlist[1].string + ':' + tdlist[2].string
 
+            yield item
             # self.verify_ip(item)
-            ua = UserAgent()
-            try:
-                url_content = get("https://www.baidu.com/",
-                                  proxies={"http": item['ip'], "https": item['ip']},
-                                  timeout=10,
-                                  headers={
-                                      'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-                                      'Accept-Encoding': 'gzip, deflate, compress',
-                                      'Accept-Language': 'zh-CN,zh;q=0.8,en;q=0.6,ru;q=0.4',
-                                      'Cache-Control': 'max-age=0',
-                                      'Connection': 'keep-alive',
-                                      'User-Agent': ua.random
-                                  })
-
-                if int(url_content.status_code) == int(200):
-                    yield item
-
-            except BaseException as e:
-                pass
+            # ua = UserAgent()
+            # try:
+            #     url_content = get("https://www.baidu.com/",
+            #                       proxies={"http": item['ip'], "https": item['ip']},
+            #                       timeout=10,
+            #                       headers={
+            #                           'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            #                           'Accept-Encoding': 'gzip, deflate, compress',
+            #                           'Accept-Language': 'zh-CN,zh;q=0.8,en;q=0.6,ru;q=0.4',
+            #                           'Cache-Control': 'max-age=0',
+            #                           'Connection': 'keep-alive',
+            #                           'User-Agent': ua.random
+            #                       })
+            #
+            #     if int(url_content.status_code) == int(200):
+            #         yield item
+            #
+            # except BaseException as e:
+            #     pass
 
     # 检测获取的代理IP是否可用
     def verify_ip(self, item):

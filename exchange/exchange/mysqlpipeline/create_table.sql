@@ -28,7 +28,7 @@ CREATE TABLE `token_info`(
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE if EXISTS `ip_list`;
-CREATE TABLE `ip_list`(
+CREATE TABLE  `ip_list`(
     `ip` VARCHAR (255) NOT NULL ,
     PRIMARY KEY (`ip`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
