@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 import scrapy
 from scrapy import Request
 import json
@@ -13,11 +16,9 @@ class UnusualEsSpider(scrapy.Spider):
 
     currency_dict = {'snt': '0x744d70fdbe2ba4cf95131626614a1763df805b9e',
                      'btm': '0xcb97e65f07da24d46bcdd078ebebd7c6e6e3d750'}
-    # page1_url = 'https://etherscan.io/token/generic-tokentxns2?contractAddress={0}&a={1}&mode={2}&p={3}'
-    # start_url = 'http://api.etherscan.io/api?module=account&action=tokentx&address={0}&startblock=0&' \
-    #             'endblock=999999999&sort=desc&apikey=YourApiKeyToken'
+    # 获取某个币种的交易信息
     start_url1 = 'https://api.etherscan.io/api?module=account&action=tokentx&contractaddress={0}' \
-                 '&page=1&offset=10000&sort=desc&apikey=YourApiKeyToken'
+                 '&page=1&offset=2000&sort=desc&apikey=YourApiKeyToken'
 
     def start_requests(self):
         for item in self.currency_dict.values():

@@ -1,3 +1,6 @@
+# !/usr/bin/python
+# -*- coding: utf-8 -*-
+
 import scrapy
 from scrapy import Request
 import json
@@ -8,14 +11,14 @@ from scrapy.exceptions import CloseSpider
 # 爬取行情异动 from tokenview
 # todo 因为需要不间断爬取, 所以需要把'https://tokenview.com/api/tx/unusuallist/'加入到scrapy重复请求过滤白名单里
 class UnusualTvSpider(scrapy.Spider):
-    currency_list = ['mkr']
+    currency_list = ['btc']
     name = 'unusual_tokenview'
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'
                              ' Chrome/53.0.2785.143 Safari/537.36', }
 
     def start_requests(self):
         # 每页50个大额交易记录
-        page1_url = 'https://tokenview.com/api/tx/unusuallist/{0}/1/2'
+        page1_url = 'https://tokenview.com/api/tx/unusuallist/{0}/1/50'
         page2_url = 'https://tokenview.com/api/tx/unusuallist/{0}/2/50'
 
         for currency in self.currency_list:

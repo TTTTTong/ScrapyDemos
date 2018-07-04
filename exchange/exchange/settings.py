@@ -8,7 +8,7 @@
 #     https://doc.scrapy.org/en/latest/topics/settings.html
 #     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
-
+import sys
 BOT_NAME = 'exchange'
 
 SPIDER_MODULES = ['exchange.spiders']
@@ -96,11 +96,17 @@ ITEM_PIPELINES = {
 FEED_EXPORT_ENCODING = 'utf-8'
 
 # 数据库
-MYSQL_HOSTS = '127.0.0.1'
-MYSQL_USER = 'root'
-MYSQL_PASSWORD = '201919'
-MYSQL_PORT = '3306'
-MYSQL_DB = 'scrapy001'
+if sys.version_info[0] == 3:
+    MYSQL_HOSTS = '127.0.0.1'
+    MYSQL_USER = 'root'
+    MYSQL_PASSWORD = '201919'
+    MYSQL_PORT = '3306'
+    MYSQL_DB = 'scrapy001'
+else:
+    MYSQL_HOSTS = 'rm-j6ccb77fan1q3p0n8.mysql.rds.aliyuncs.com'
+    MYSQL_USER = 'rshvip'
+    MYSQL_PASSWORD = 'Aa112255'
+    MYSQL_DB = 'coindata'
 
 # 日志
 # LOG_LEVEL = 'INFO'
@@ -113,7 +119,7 @@ RETRY_TIMES = 3
 # Retry on most error codes since proxies fail for different reasons
 RETRY_HTTP_CODES = [500, 503, 504, 400, 403, 404, 408]
 # 代理列表存放地址
-PROXY_LIST = '../IPProxy/ip_list.txt'
+PROXY_LIST = '/Users/tongxiaoyu/Documents/Work/Code/ScrapyDir/exchange/IPProxy/ip_list.txt'
 # 代理模式
 # 0 = Every requests have different proxy
 # 1 = Take only one proxy from the list and assign it to every requests

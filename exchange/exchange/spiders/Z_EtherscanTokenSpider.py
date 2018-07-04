@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 import scrapy
 from scrapy import Request
 from bs4 import BeautifulSoup
@@ -14,7 +17,7 @@ class EtherScanTokenSpider(scrapy.Spider):
     start_url = "https://etherscan.io/tokens?p={0}"
     detail_url = "https://etherscan.io{0}"
     #  提取token名字中小括号内的缩写，例如Tronix(TRX)
-    pattern = re.compile(r'[(](.*?)[)]', re.S)
+    # pattern = re.compile(r'[(](.*?)[)]', re.S)
 
     def start_requests(self):
 
@@ -26,15 +29,16 @@ class EtherScanTokenSpider(scrapy.Spider):
         result = soup.select('tr td.hidden-xs h5 a')
         for i in result:
             href = i.get('href')
-            name = re.findall(self.pattern, i.get_text())[0].lower()
+            # name = re.findall(self.pattern, i.get_text())[0].lower()
 
-            yield Request(url=self.detail_url.format(href), callback=self.parse_detail, meta={'name': name})
+            yield Request(url=self.detail_url.format(href), callback=self.parse_detail, )
 
     # 获取每个token的contract_address
     def parse_detail(self, response):
-        name = response.meta['name']
+        # name = response.meta['name']
         soup = BeautifulSoup(response.body, 'lxml')
         contract = soup.select('td.tditem a')[0].get_text()
+        name = soup.select('span.lead-modify')[0].get_text()
 
         item = TokenInfoItem()
         item['currency'] = name

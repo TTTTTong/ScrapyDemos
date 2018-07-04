@@ -1,7 +1,5 @@
 from .sql import sql
 from exchange.items import RegalHolderItem, UnusualItem, TokenInfoItem, IpItem
-from requests import get
-from fake_useragent import UserAgent
 
 
 class ExchangePipeline:

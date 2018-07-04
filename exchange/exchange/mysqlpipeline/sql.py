@@ -1,3 +1,5 @@
+# !/usr/bin/python
+# -*- coding: utf-8 -*-
 # import MySQLdb
 # todo
 import mysql.connector
@@ -35,3 +37,28 @@ class sql:
         sql = "insert into ip_list VALUES('{0}') ON duplicate KEY UPDATE ip='{0}';"
         cur.execute(sql.format(ip))
         cnx.commit()
+
+    @classmethod
+    def insert_currency_info_fromes(cls, name, holders, trans):
+        # 查询上次转账总数
+        sql1 = "select trans_count from currency_holder_info WHERE currency='{}'"
+        cur.execute(sql1.format(name))
+        last_trans = cur.fetchone()[0]
+        # 查询持币集中度
+        sql_10 = "select sum(per) FROM (select per from regal_holder WHERE currency='{}' ORDER BY per DESC  limit 10) a"
+        sql_50 = "select sum(per) FROM (select per from regal_holder WHERE currency='{}' ORDER BY per DESC  limit 50) a"
+        sql_100= "select sum(per) FROM (select per from regal_holder WHERE currency='{}' ORDER BY per DESC  limit 100)a"
+        cur.execute(sql_10.format(name))
+        concentration_10 = cur.fetchone()[0]
+        cur.execute(sql_50.format(name))
+        concentration_50 = cur.fetchone()[0]
+        cur.execute(sql_100.format(name))
+        concentration_100 = cur.fetchone()[0]
+
+        sql3 = "insert into currency_holder_info VALUES ('{0}',{1},{2},{3},{4},{5},{6},{7},'{8}')"
+        cur.execute(sql3.format(name, holders, trans, trans-last_trans, concentration_10, concentration_50,
+                                concentration_100))
+        cnx.commit()
+
+    # @classmethod
+    # def insert_currency_info_fromtv(cls, ):
