@@ -6,15 +6,27 @@ from scrapy import Request
 import json
 from ..items import UnusualItem
 from scrapy.exceptions import CloseSpider
+import sys
+if sys.version_info[0] == 3:
+    sys.path.append('/Users/tongxiaoyu/Documents/Work/Code/ScrapyDir/exchange')
+else:
+    sys.path.append('/srv/node-app/crawl/exchange')
+from utils import GetDbConn
 
 
 # 爬取行情异动 from tokenview
 # todo 因为需要不间断爬取, 所以需要把'https://tokenview.com/api/tx/unusuallist/'加入到scrapy重复请求过滤白名单里
 class UnusualTvSpider(scrapy.Spider):
-    currency_list = ['btc']
     name = 'unusual_tokenview'
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'
-                             ' Chrome/53.0.2785.143 Safari/537.36', }
+
+    conn = GetDbConn.get_mysqlconn()
+    cur = conn.cursor()
+    # 需要从tokenview爬取的币
+    currency_sql = "SELECT `currency`,`blockchain_pram`  FROM `currency_info` WHERE `blockchain_source` = 1;"
+    cur.execute(currency_sql)
+    currency_list = cur.fetchall()
+    cur.close()
+    conn.close()
 
     def start_requests(self):
         # 每页50个大额交易记录
@@ -22,15 +34,15 @@ class UnusualTvSpider(scrapy.Spider):
         page2_url = 'https://tokenview.com/api/tx/unusuallist/{0}/2/50'
 
         for currency in self.currency_list:
-            yield Request(url=page1_url.format(currency), headers=self.headers)
-            yield Request(url=page2_url.format(currency), headers=self.headers)
+            yield Request(url=page1_url.format(currency[1]), meta={'currency': currency[0]})
+            yield Request(url=page2_url.format(currency[1]), meta={'currency': currency[0]})
 
     def parse(self, response):
         result = json.loads(response.body)
         if result['code'] == 404:
             return
             # raise CloseSpider('tokenview returned null data')
-        currency = result['data']['network']
+        currency = response.meta['currency']
         data = result['data']['unusualTxs']
 
         for txs in data:
@@ -45,10 +57,10 @@ class UnusualTvSpider(scrapy.Spider):
 
             # 不同货币的返回格式不同
             if item['txid'].startswith('0x'):
-                yield Request(url='http://www.tokenview.com:8088/search/{0}'.format(item['txid']), headers=self.headers,
+                yield Request(url='http://www.tokenview.com:8088/search/{0}'.format(item['txid']),
                               meta={'item': item}, callback=self.parse_outaddr2)
             else:
-                yield Request(url='http://www.tokenview.com:8088/search/{0}'.format(item['txid']), headers=self.headers,
+                yield Request(url='http://www.tokenview.com:8088/search/{0}'.format(item['txid']),
                               meta={'item': item}, callback=self.parse_outaddr1)
 
     def is_regal(self, item):

@@ -34,7 +34,7 @@ class IpItem(scrapy.Item):
     ip = scrapy.Field()
 
 
-class CurrencyHolderInfoItem(scrapy.Item):
+class CurrencyHolderInfoItemEs(scrapy.Item):
     currency = scrapy.Field()
     holders = scrapy.Field()
     trans = scrapy.Field()
@@ -44,6 +44,16 @@ class CurrencyHolderInfoItem(scrapy.Item):
     concentration_50 = scrapy.Field()
     concentration_100 = scrapy.Field()
 
+
+class CurrencyHolderInfoItemTv(scrapy.Item):
+    currency = scrapy.Field()
+    holders = scrapy.Field()
+    trans = scrapy.Field()
+    day_trans = scrapy.Field()
+    day_price = scrapy.Field()
+    concentration_10 = scrapy.Field()
+    concentration_50 = scrapy.Field()
+    concentration_100 = scrapy.Field()
 
 # temp
 class TokenInfoItem(scrapy.Item):

@@ -27,9 +27,9 @@ ROBOTSTXT_OBEY = False
 # Configure a delay for requests for the same website (default: 0)
 # See https://doc.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 0.4
+DOWNLOAD_DELAY = 0.2
 # The download delay s etting will honor only one of:
-CONCURRENT_REQUESTS_PER_DOMAIN = 16
+CONCURRENT_REQUESTS_PER_DOMAIN = 20
 # CONCURRENT_REQUESTS_PER_IP = 16
 
 # Disable cookies (enabled by default)
@@ -95,18 +95,21 @@ ITEM_PIPELINES = {
 
 FEED_EXPORT_ENCODING = 'utf-8'
 
-# 数据库
 if sys.version_info[0] == 3:
+    # 数据库
     MYSQL_HOSTS = '127.0.0.1'
     MYSQL_USER = 'root'
     MYSQL_PASSWORD = '201919'
     MYSQL_PORT = '3306'
     MYSQL_DB = 'scrapy001'
+    # 代理列表存放地址
+    PROXY_LIST = '/Users/tongxiaoyu/Documents/Work/Code/ScrapyDir/exchange/IPProxy/ip_list.txt'
 else:
     MYSQL_HOSTS = 'rm-j6ccb77fan1q3p0n8.mysql.rds.aliyuncs.com'
     MYSQL_USER = 'rshvip'
     MYSQL_PASSWORD = 'Aa112255'
     MYSQL_DB = 'coindata'
+    PROXY_LIST = '/srv/node-app/crawl/IPProxy/ip_list.txt'
 
 # 日志
 # LOG_LEVEL = 'INFO'
@@ -118,8 +121,6 @@ else:
 RETRY_TIMES = 3
 # Retry on most error codes since proxies fail for different reasons
 RETRY_HTTP_CODES = [500, 503, 504, 400, 403, 404, 408]
-# 代理列表存放地址
-PROXY_LIST = '/Users/tongxiaoyu/Documents/Work/Code/ScrapyDir/exchange/IPProxy/ip_list.txt'
 # 代理模式
 # 0 = Every requests have different proxy
 # 1 = Take only one proxy from the list and assign it to every requests

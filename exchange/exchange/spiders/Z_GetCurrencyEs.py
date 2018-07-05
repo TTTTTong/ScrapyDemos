@@ -5,7 +5,7 @@ import scrapy
 from scrapy import Request
 from bs4 import BeautifulSoup
 import re
-from ..items import CurrencyHolderInfoItem
+from ..items import CurrencyHolderInfoItemEs
 
 
 # 废弃  只能获取到530个
@@ -41,8 +41,7 @@ class CurrencyInfoEsSpider(scrapy.Spider):
         holders = soup.select('table.table tr')[3].select('td')[1].get_text().split()[0]
         transfers = soup.select('table.table tr')[4].select('td')[1].get_text()
 
-
-        item = CurrencyHolderInfoItem()
+        item = CurrencyHolderInfoItemEs()
         item['currency'] = name
         item['holders'] = holders
         item['trans'] = transfers

@@ -11,20 +11,20 @@ CREATE TABLE `regal_holder` (
 DROP TABLE IF EXISTS `currency_holder_info`;
 CREATE TABLE `currency_holder_info`(
      `currency` varchar(32) NOT NULL ,
-     `holder_count` INT ,
-     `trans_count` INT ,
-     `24h_trans` INT ,
-     `24h_price` FLOAT ,
-     `concentration_10` FLOAT (6,6),
-     `concentration_50` FLOAT (6,6),
-     `concentration_100` FLOAT (6,6),
+     `holder_count` INT DEFAULT 0,
+     `trans_count` INT DEFAULT 0,
+     `24h_trans` INT DEFAULT 0,
+     `24h_price` FLOAT DEFAULT 0,
+     `concentration_10` FLOAT (10,10),
+     `concentration_50` FLOAT (10,10),
+     `concentration_100` FLOAT (10,10),
      PRIMARY KEY (`currency`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `unusual`;
 CREATE TABLE `unusual`(
     `currency` varchar(32) NOT NULL ,
-    `txid` varchar(64) NOT NULL,
+    `txid` varchar(128) NOT NULL,
     `quantity` float NOT NULL,
     `time` bigint(20) NOT NULL ,
     `is_regal` tinyint(1) NOT NULL DEFAULT 0,
