@@ -38,7 +38,7 @@ class EtherScanTokenSpider(scrapy.Spider):
         # name = response.meta['name']
         soup = BeautifulSoup(response.body, 'lxml')
         contract = soup.select('td.tditem a')[0].get_text()
-        name = soup.select('span.lead-modify')[0].get_text()
+        name = soup.select('td.tditem')[0].get_text().split()[1]
 
         item = TokenInfoItem()
         item['currency'] = name

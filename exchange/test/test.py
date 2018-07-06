@@ -25,4 +25,4 @@
 # # cur.execute(sql1.format('mkr'))
 # # last_trans = cur.fetchone()[0]
 # # print(last_trans)
-print(int(float('37219452.96')))
+print(9.192083455224705e+25/1e27)

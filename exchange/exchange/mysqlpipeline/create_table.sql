@@ -8,8 +8,8 @@ CREATE TABLE `regal_holder` (
   PRIMARY KEY (`currency`, `rank`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `currency_holder_info`;
-CREATE TABLE `currency_holder_info`(
+DROP TABLE IF EXISTS `currency_chain_info`;
+CREATE TABLE `currency_chain_info`(
      `currency` varchar(32) NOT NULL ,
      `holder_count` INT DEFAULT 0,
      `trans_count` INT DEFAULT 0,

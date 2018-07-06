@@ -87,7 +87,7 @@ class sql:
         cur.execute(sql_100.format(name))
         concentration_100 = cur.fetchone()[0]
 
-        sql3 = "insert into currency_holder_info VALUES ('{0}',{1},{2},{3},{4},{5},{6},{7})ON duplicate KEY UPDATE " \
+        sql3 = "insert into currency_chain_info VALUES ('{0}',{1},{2},{3},{4},{5},{6},{7})ON duplicate KEY UPDATE " \
                "holder_count={1}, trans_count={2},24h_trans={3}, 24h_price={4},concentration_10={5}," \
                "concentration_50={6},concentration_100={7}"
         conn = cls.get_conn()
@@ -99,20 +99,20 @@ class sql:
 
     @classmethod
     def insert_currency_info_fromtv(cls, name, day_price, concentration_10, concentration_50, concentration_100):
-        query_sql = "select * from `currency_holder_info` where `currency`='{}'"
+        query_sql = "select * from `currency_chain_info` where `currency`='{}'"
         try:
             conn = cls.get_conn()
             cur = conn.cursor()
             cur.execute(query_sql.format(name))
             if cur.fetchone() is not None:
-                update_sql = "update currency_holder_info set 24h_price={0}, concentration_10={1}, " \
+                update_sql = "update currency_chain_info set 24h_price={0}, concentration_10={1}, " \
                              "concentration_50={2}, concentration_100={3} WHERE currency='{4}'"
                 cur.execute(update_sql.format(day_price, concentration_10, concentration_50, concentration_100, name))
                 conn.commit()
                 cur.close()
                 conn.close
             else:
-                insert_sql = "insert into currency_holder_info VALUES ('{0}',0,0,0,{1},{2},{3},{4})"
+                insert_sql = "insert into currency_chain_info VALUES ('{0}',0,0,0,{1},{2},{3},{4})"
                 cur.execute(insert_sql.format(name, day_price, concentration_10, concentration_50, concentration_100))
                 conn.commit()
                 cur.close()
@@ -121,7 +121,7 @@ class sql:
         except Exception:
             conn = cls.get_conn()
             cur = conn.cursor()
-            insert_sql = "insert into currency_holder_info VALUES ('{0}',0,0,0,{1},{2},{3},{4})"
+            insert_sql = "insert into currency_chain_info VALUES ('{0}',0,0,0,{1},{2},{3},{4})"
             cur.execute(insert_sql.format(name, day_price, concentration_10, concentration_50, concentration_100))
             conn.commit()
             cur.close()

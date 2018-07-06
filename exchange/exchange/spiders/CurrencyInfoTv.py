@@ -33,7 +33,7 @@ class CurrencyInfoTv(scrapy.Spider):
             # QTUM的返回数据和其他不同，特殊处理
             if currency[2] == 'qtum_eth':
                 yield Request(url=self.balanceratio_url.format(currency[2]), callback=self.parse_ratio,
-                              meta={'currency': currency[0], 'circulation': 100000000})
+                              meta={'currency': currency[0], 'circulation': 1e26})
             else:
                 yield Request(url=self.circulation_url.format(currency[2]), meta={'currency': currency[0]})
 

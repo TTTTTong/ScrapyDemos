@@ -4,7 +4,7 @@ import MySQLdb
 conn = MySQLdb.connect(host='rm-j6ccb77fan1q3p0n8.mysql.rds.aliyuncs.com',
                        user='rshvip', passwd='Aa112255', db='coindata')
 cu = conn.cursor()
-sql0 = "SELECT `fullname` from `currency_info`;"
+sql0 = "SELECT `currency` from `currency_info`;"
 cu.execute(sql0)
 re = cu.fetchall()
 cu.close()
