@@ -23,26 +23,27 @@ class sql:
             return conn
 
     @classmethod
-    def insert_regal_holder(cls, currency, rank, address, quantity, per):
-        sql = "insert into regal_holder values('{0}',{1},'{2}',{3},{4}) on duplicate key " \
-              "update address='{2}',quantity={3},per={4};"
+    def insert_regal_holder(cls, currency, rank, address, quantity, per, exchange):
+        sql = "insert into regal_holder values('{0}',{1},'{2}',{3},{4},'{5}') on duplicate key " \
+              "update address='{2}',quantity={3},per={4},exchange='{5}';"
         conn = cls.get_conn()
         cur = conn.cursor()
-        cur.execute(sql.format(currency, rank, address, quantity, per))
+        cur.execute(sql.format(currency, rank, address, quantity, per, exchange))
         conn.commit()
         cur.close()
-        conn.close
+        conn.close()
 
     @classmethod
-    def insert_unusual(cls, currency, txid, quantity, time, is_regal, from_addr, to_addr):
-        sql = "insert into unusual VALUES('{0}', '{1}', {2}, {3}, {4}, '{5}', '{6}') ON duplicate KEY " \
-              "UPDATE quantity={2},time={3},is_regal={4},from_addr='{5}',to_addr='{6}';"
+    def insert_unusual(cls, currency, txid, quantity, time, is_regal, from_addr, to_addr, from_exchange, to_exchange):
+        sql = "insert into unusual VALUES('{0}', '{1}', {2}, {3}, {4}, '{5}', '{6}', '{7}', '{8}') ON duplicate KEY " \
+              "UPDATE quantity={2},time={3},is_regal={4},from_addr='{5}',to_addr='{6}',from_exchange='{7}'," \
+              "to_exchange='{8}';"
         conn = cls.get_conn()
         cur = conn.cursor()
-        cur.execute(sql.format(currency, txid, quantity, time, is_regal, from_addr, to_addr))
+        cur.execute(sql.format(currency, txid, quantity, time, is_regal, from_addr, to_addr, from_exchange, to_exchange))
         conn.commit()
         cur.close()
-        conn.close
+        conn.close()
 
     @classmethod
     def indert_tokeninfo(cls, currency, contract):
@@ -52,7 +53,7 @@ class sql:
         cur.execute(sql.format(currency, contract))
         conn.commit()
         cur.close()
-        conn.close
+        conn.close()
 
     @classmethod
     def insert_ip(cls, ip):
@@ -62,18 +63,20 @@ class sql:
         cur.execute(sql.format(ip))
         conn.commit()
         cur.close()
-        conn.close
+        conn.close()
 
     @classmethod
     def insert_currency_info_fromes(cls, name, holders, day_price, trans):
         # 查询上次转账总数
-        sql1 = "select trans_count from currency_holder_info WHERE currency='{}'"
+        sql1 = "select trans_count from currency_chain_info WHERE currency='{}'"
         conn = cls.get_conn()
         cur = conn.cursor()
         cur.execute(sql1.format(name))
         try:
             last_trans = cur.fetchone()[0]
-        except TypeError:
+            if last_trans is None:
+                last_trans = 0
+        except Exception:
             last_trans = 0
         day_trans = int(trans)-last_trans
         # 查询持币集中度
@@ -95,7 +98,7 @@ class sql:
         cur.execute(sql3.format(name, holders, trans, day_trans, day_price, concentration_10, concentration_50, concentration_100))
         conn.commit()
         cur.close()
-        conn.close
+        conn.close()
 
     @classmethod
     def insert_currency_info_fromtv(cls, name, day_price, concentration_10, concentration_50, concentration_100):
@@ -110,13 +113,14 @@ class sql:
                 cur.execute(update_sql.format(day_price, concentration_10, concentration_50, concentration_100, name))
                 conn.commit()
                 cur.close()
-                conn.close
+                conn.close()
+            # todo 把0改为空
             else:
                 insert_sql = "insert into currency_chain_info VALUES ('{0}',0,0,0,{1},{2},{3},{4})"
                 cur.execute(insert_sql.format(name, day_price, concentration_10, concentration_50, concentration_100))
                 conn.commit()
                 cur.close()
-                conn.close
+                conn.close()
         # todo 有问题
         except Exception:
             conn = cls.get_conn()
@@ -125,4 +129,4 @@ class sql:
             cur.execute(insert_sql.format(name, day_price, concentration_10, concentration_50, concentration_100))
             conn.commit()
             cur.close()
-            conn.close
+            conn.close()
